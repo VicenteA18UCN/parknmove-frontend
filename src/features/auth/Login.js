@@ -16,10 +16,27 @@ import { green } from "@mui/material/colors";
 import { auto } from "@popperjs/core";
 
 const Login = () => {
-  const { control, handleSubmit } = useForm(); // Configura el control del formulario
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isValid },
+    reset,
+  } = useForm({ mode: "onTouched" });
+  const navigate = useNavigate();
 
-  const onSubmit = (data) => {
-    console.log(data); // Data contiene los valores del formulario
+  const handleSubmitButton = (data) => {
+    agent.Login.login(data.email, data.password)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        let errorMessage = error.response.data.errors;
+        console.log(errorMessage);
+        console.log(error.response);
+      })
+      .finally(() => {
+        reset();
+      });
   };
 
   return (
@@ -46,7 +63,7 @@ const Login = () => {
             ¡Hola! Qué gusto verte otra vez.
           </Typography>
 
-          <form onSubmit={handleSubmit(onSubmit)} sx={{ mt: 4 }}>
+          <form onSubmit={handleSubmit(handleSubmitButton)} sx={{ mt: 4 }}>
             <Typography variant="body2" sx={{ color: "#2F8059" }}>
               Email
             </Typography>
@@ -86,18 +103,6 @@ const Login = () => {
               )}
               rules={{ required: "Campo obligatorio" }}
             />
-
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "left",
-              }}
-            >
-              <Typography variant="body1">
-                Olvidaste la contraseña? <a href="#">Restablecer Contraseña</a>
-              </Typography>
-            </Box>
 
             <Button
               fullWidth
