@@ -2,146 +2,128 @@ import * as React from "react";
 import {
   Button,
   Container,
-  CssBaseline,
   TextField,
   Typography,
+  Grid,
+  Paper,
 } from "@mui/material";
 import Box from "@mui/material/Box";
 import "./Login.css";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import agent from "../../app/api/agent";
+import { useNavigate, Link } from "react-router-dom";
+import { green } from "@mui/material/colors";
+import { auto } from "@popperjs/core";
 
 const Login = () => {
-  //   const handleSubmit = (event) => {
-  //     event.preventDefault();
-  //     const data = new FormData(event.currentTarget);
-  //     const email = data.get("user")?.toString() ?? "";
-  //     const password = data.get("password")?.toString() ?? "";
-  //     sendData(email, password);
-  //   };
+  const { control, handleSubmit } = useForm(); // Configura el control del formulario
 
-  //   const sendData = (email, password) => {
-  //     console.log(email, password);
-  //     agent.Auth.login({ email, password })
-  //       .then((res) => console.log(res))
-  //       .catch((err) => console.log(err))
-  //       .finally(() => console.log("Finally triggered"));
-  //   };
+  const onSubmit = (data) => {
+    console.log(data); // Data contiene los valores del formulario
+  };
+
   return (
-    <>
-      <CssBaseline />
-      <Container component="main" maxWidth="md">
-        <Box
-          component="form"
-          sx={{
-            mt: 1,
-            marginTop: 8,
-            marginLeft: 24,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            borderRadius: 3,
-            border: "#000000",
-            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.5)",
-            padding: 4,
-            width: 470,
-            height: 470,
-          }}
-          //   onSubmit={handleSubmit}
-          noValidate
-        >
+    <Grid
+      container
+      justifyContent="center"
+      alignItems="center"
+      sx={{ height: "100vh", background: "#2F8059" }}
+    >
+      <Grid item xs={12} sm={8} md={6} sx={{ textAlign: "center" }}>
+        <Paper elevation={3} sx={{ p: 4, border: "2px solid black" }}>
           <Typography
-            component="h1"
-            variant="h5"
-            sx={{ fontFamily: "Marck Script, cursive", fontSize: "45px" }}
+            variant="h1"
+            sx={{
+              fontWeight: "bold",
+              mb: 2,
+              fontSize: { xs: 40, sm: 60, md: 80 },
+            }}
           >
             ParknMove
           </Typography>
+          <Typography variant="h3">Iniciar sesión</Typography>
+          <Typography variant="h6" sx={{ mb: 4 }}>
+            ¡Hola! Qué gusto verte otra vez.
+          </Typography>
 
-          <br />
+          <form onSubmit={handleSubmit(onSubmit)} sx={{ mt: 4 }}>
+            <Typography variant="body2" sx={{ color: "#2F8059" }}>
+              Email
+            </Typography>
+            <Controller
+              name="email"
+              control={control}
+              defaultValue=""
+              render={({ field }) => (
+                <TextField
+                  margin="dense"
+                  fullWidth
+                  label="Correo electrónico"
+                  autoFocus
+                  {...field}
+                  sx={{ mb: 2 }}
+                />
+              )}
+              rules={{ required: "Campo obligatorio" }}
+            />
 
-          <TextField
-            margin="normal"
-            required
-            id="user"
-            label="Correo electrónico o usuario"
-            name="user"
-            InputLabelProps={{
-              sx: {
-                fontFamily: "Mulish, sans-serif",
-                fontWeight: 300,
-              },
-            }}
-            sx={{
-              boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.3)",
-              width: 350,
-            }}
-          />
+            <Typography variant="body2" sx={{ color: "#2F8059" }}>
+              Contraseña
+            </Typography>
+            <Controller
+              name="password"
+              control={control}
+              defaultValue=""
+              render={({ field }) => (
+                <TextField
+                  margin="dense"
+                  fullWidth
+                  label="Contraseña"
+                  type="password"
+                  autoComplete="current-password"
+                  {...field}
+                />
+              )}
+              rules={{ required: "Campo obligatorio" }}
+            />
 
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="password"
-            label="Contraseña"
-            name="password"
-            type="password"
-            InputLabelProps={{
-              sx: {
-                fontFamily: "Mulish, sans-serif",
-                fontWeight: 300,
-              },
-            }}
-            sx={{
-              boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.3)",
-              width: 350,
-              mt: 3,
-              mb: 0,
-            }}
-          />
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "left",
+              }}
+            >
+              <Typography variant="body1">
+                Olvidaste la contraseña? <a href="#">Restablecer Contraseña</a>
+              </Typography>
+            </Box>
 
-          <Box>
-            <p className="p-forgot-password">
-              ¿Te olvidaste de tu contraseña?{" "}
-              <a className="a-forgot-password" href="#">
-                {" "}
-                Restablecer contraseña
-              </a>
-            </p>
-          </Box>
+            <Button
+              fullWidth
+              variant="contained"
+              color="success"
+              sx={{ mt: 3, mb: 2 }}
+              type="submit"
+            >
+              Iniciar sesión
+            </Button>
 
-          <Button
-            type="submit"
-            variant="contained"
-            sx={{
-              mt: 1,
-              mb: 3,
-              width: 350,
-              borderRadius: 3,
-              background: "linear-gradient(to right, #3969FC, #4B2AFF)",
-              fontFamily: "Murecho, sans-serif",
-              fontWeight: 400,
-              fontSize: 25,
-              textTransform: "none",
-              height: 45,
-            }}
-          >
-            Entrar
-          </Button>
-
-          <hr className="custom-hr" />
-
-          <Box sx={{ mt: 3 }}>
-            <p className="p-forgot-password-v2">
-              ¿No tienes cuenta?{" "}
-              <a className="a-forgot-password" href="#">
-                {" "}
-                Regístrate
-              </a>
-            </p>
-          </Box>
-        </Box>
-      </Container>
-    </>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <Typography variant="h6">
+                ¿No tienes cuenta? <a href="#">Regístrate</a>
+              </Typography>
+            </Box>
+          </form>
+        </Paper>
+      </Grid>
+    </Grid>
   );
 };
 
