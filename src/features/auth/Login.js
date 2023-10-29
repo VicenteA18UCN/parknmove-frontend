@@ -8,7 +8,6 @@ import {
   Paper,
 } from "@mui/material";
 import Box from "@mui/material/Box";
-import "./Login.css";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import agent from "../../app/api/agent";
 import { useNavigate, Link } from "react-router-dom";
@@ -120,11 +119,7 @@ const Login = () => {
                 flexDirection: "column",
                 alignItems: "center",
               }}
-            >
-              <Typography variant="h6">
-                ¿No tienes cuenta? <a href="#">Regístrate</a>
-              </Typography>
-            </Box>
+            ></Box>
           </form>
         </Paper>
       </Grid>
