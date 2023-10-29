@@ -12,8 +12,7 @@ const requests = {
 };
 
 const Login = {
-  login: (userId, userPassword) =>
-    requests.post("/login", { userId, userPassword }),
+  login: (email, password) => requests.post("user/login", { email, password }),
 };
 
 const agent = {
