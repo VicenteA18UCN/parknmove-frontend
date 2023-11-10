@@ -8,13 +8,16 @@ import {
   Paper,
 } from "@mui/material";
 import Box from "@mui/material/Box";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, set, useForm } from "react-hook-form";
 import agent from "../../app/api/agent";
 import { useNavigate, Link } from "react-router-dom";
 import InputAdornment from "@mui/material/InputAdornment";
 import EmailIcon from "@mui/icons-material/Email";
 import LockIcon from "@mui/icons-material/Lock";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../account/userSlice";
+import { selectId } from "../account/userSlice";
 
 const theme = createTheme({
   palette: {
@@ -33,18 +36,19 @@ const theme = createTheme({
 });
 
 const Login = () => {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors, isValid },
-    reset,
-  } = useForm({ mode: "onTouched" });
+  const { control, handleSubmit } = useForm({ mode: "onTouched" });
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const id = useSelector(selectId);
+  console.log(id);
 
   const handleSubmitButton = (data) => {
     agent.Login.login(data.email, data.password)
       .then((response) => {
+        dispatch(login(response.token));
+        console.log(response.token);
         console.log(response);
+        navigate("/main/welcome");
       })
       .catch((error) => {
         let errorMessage = error.response.data.errors;
@@ -52,7 +56,7 @@ const Login = () => {
         console.log(error.response);
       })
       .finally(() => {
-        reset();
+        console.log("finally");
       });
   };
 
