@@ -8,25 +8,47 @@ import {
   Paper,
 } from "@mui/material";
 import Box from "@mui/material/Box";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, set, useForm } from "react-hook-form";
 import agent from "../../app/api/agent";
 import { useNavigate, Link } from "react-router-dom";
-import { green } from "@mui/material/colors";
-import { auto } from "@popperjs/core";
+import InputAdornment from "@mui/material/InputAdornment";
+import EmailIcon from "@mui/icons-material/Email";
+import LockIcon from "@mui/icons-material/Lock";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../account/userSlice";
+import { selectId } from "../account/userSlice";
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      light: "#757ce8",
+      main: "#10B981",
+      contrastText: "#fff",
+    },
+    secondary: {
+      light: "#ff7961",
+      main: "#f44336",
+      dark: "#ba000d",
+      contrastText: "#000",
+    },
+  },
+});
 
 const Login = () => {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors, isValid },
-    reset,
-  } = useForm({ mode: "onTouched" });
+  const { control, handleSubmit } = useForm({ mode: "onTouched" });
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const id = useSelector(selectId);
+  console.log(id);
 
   const handleSubmitButton = (data) => {
     agent.Login.login(data.email, data.password)
       .then((response) => {
+        dispatch(login(response.token));
+        console.log(response.token);
         console.log(response);
+        navigate("/main/welcome");
       })
       .catch((error) => {
         let errorMessage = error.response.data.errors;
@@ -34,96 +56,118 @@ const Login = () => {
         console.log(error.response);
       })
       .finally(() => {
-        reset();
+        console.log("finally");
       });
   };
 
   return (
-    <Grid
-      container
-      justifyContent="center"
-      alignItems="center"
-      sx={{ height: "100vh", background: "#2F8059" }}
-    >
-      <Grid item xs={12} sm={8} md={6} sx={{ textAlign: "center" }}>
-        <Paper elevation={3} sx={{ p: 4, border: "2px solid black" }}>
-          <Typography
-            variant="h1"
-            sx={{
-              fontWeight: "bold",
-              mb: 2,
-              fontSize: { xs: 40, sm: 60, md: 80 },
-            }}
-          >
-            ParknMove
-          </Typography>
-          <Typography variant="h3">Iniciar sesión</Typography>
-          <Typography variant="h6" sx={{ mb: 4 }}>
-            ¡Hola! Qué gusto verte otra vez.
-          </Typography>
-
-          <form onSubmit={handleSubmit(handleSubmitButton)} sx={{ mt: 4 }}>
-            <Typography variant="body2" sx={{ color: "#2F8059" }}>
-              Email
-            </Typography>
-            <Controller
-              name="email"
-              control={control}
-              defaultValue=""
-              render={({ field }) => (
-                <TextField
-                  margin="dense"
-                  fullWidth
-                  label="Correo electrónico"
-                  autoFocus
-                  {...field}
-                  sx={{ mb: 2 }}
-                />
-              )}
-              rules={{ required: "Campo obligatorio" }}
-            />
-
-            <Typography variant="body2" sx={{ color: "#2F8059" }}>
-              Contraseña
-            </Typography>
-            <Controller
-              name="password"
-              control={control}
-              defaultValue=""
-              render={({ field }) => (
-                <TextField
-                  margin="dense"
-                  fullWidth
-                  label="Contraseña"
-                  type="password"
-                  autoComplete="current-password"
-                  {...field}
-                />
-              )}
-              rules={{ required: "Campo obligatorio" }}
-            />
-
-            <Button
-              fullWidth
-              variant="contained"
-              color="success"
-              sx={{ mt: 3, mb: 2 }}
-              type="submit"
-            >
-              Iniciar sesión
-            </Button>
-
-            <Box
+    <ThemeProvider theme={theme}>
+      <Grid
+        container
+        justifyContent="center"
+        alignItems="center"
+        sx={{
+          height: "100vh",
+          background: "linear-gradient(to bottom, #d4fcdf, #10B981)",
+        }}
+      >
+        <Grid
+          item
+          xs={10}
+          sm={5}
+          md={5}
+          lg={5}
+          xl={5}
+          sx={{ textAlign: "center" }}
+        >
+          <Paper elevation={3} sx={{ p: 4, border: "2px" }}>
+            <Typography
+              variant="h2"
+              component="h2"
               sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
+                fontWeight: "bold",
+                mb: 2,
+                fontSize: { xs: 40, sm: 40, md: 45, lg: 55, xl: 70 },
               }}
-            ></Box>
-          </form>
-        </Paper>
+            >
+              ParknMove
+            </Typography>
+            <Typography variant="h3">Iniciar sesión</Typography>
+            <Typography variant="h6" sx={{ mb: 4 }}>
+              ¡Hola! Qué gusto verte otra vez.
+            </Typography>
+
+            <form onSubmit={handleSubmit(handleSubmitButton)} sx={{ mt: 4 }}>
+              <Controller
+                name="email"
+                control={control}
+                defaultValue=""
+                render={({ field }) => (
+                  <TextField
+                    margin="dense"
+                    fullWidth
+                    label="Correo electrónico"
+                    autoFocus
+                    {...field}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <EmailIcon />
+                        </InputAdornment>
+                      ),
+                    }}
+                    sx={{ mb: 2 }}
+                  />
+                )}
+                rules={{ required: "Campo obligatorio" }}
+              />
+
+              <Controller
+                name="password"
+                control={control}
+                defaultValue=""
+                render={({ field }) => (
+                  <TextField
+                    margin="dense"
+                    fullWidth
+                    label="Contraseña"
+                    type="password"
+                    autoComplete="current-password"
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <LockIcon />
+                        </InputAdornment>
+                      ),
+                    }}
+                    {...field}
+                  />
+                )}
+                rules={{ required: "Campo obligatorio" }}
+              />
+
+              <Button
+                fullWidth
+                variant="contained"
+                color="primary"
+                sx={{ mt: 3, mb: 2 }}
+                type="submit"
+              >
+                Iniciar sesión
+              </Button>
+
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              ></Box>
+            </form>
+          </Paper>
+        </Grid>
       </Grid>
-    </Grid>
+    </ThemeProvider>
   );
 };
 
