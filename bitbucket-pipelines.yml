@@ -18,7 +18,7 @@ pipelines:
             script:
               - hadolint Dockerfile
   branches:
-    master:
+    Develop:
       - step:
           name: Build and Test
           script:
