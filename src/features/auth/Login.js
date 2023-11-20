@@ -2,146 +2,172 @@ import * as React from "react";
 import {
   Button,
   Container,
-  CssBaseline,
   TextField,
   Typography,
+  Grid,
+  Paper,
 } from "@mui/material";
 import Box from "@mui/material/Box";
-import "./Login.css";
+import { Controller, SubmitHandler, set, useForm } from "react-hook-form";
 import agent from "../../app/api/agent";
+import { useNavigate, Link } from "react-router-dom";
+import InputAdornment from "@mui/material/InputAdornment";
+import EmailIcon from "@mui/icons-material/Email";
+import LockIcon from "@mui/icons-material/Lock";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../account/userSlice";
+import { selectId } from "../account/userSlice";
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      light: "#757ce8",
+      main: "#10B981",
+      contrastText: "#fff",
+    },
+    secondary: {
+      light: "#ff7961",
+      main: "#f44336",
+      dark: "#ba000d",
+      contrastText: "#000",
+    },
+  },
+});
 
 const Login = () => {
-  //   const handleSubmit = (event) => {
-  //     event.preventDefault();
-  //     const data = new FormData(event.currentTarget);
-  //     const email = data.get("user")?.toString() ?? "";
-  //     const password = data.get("password")?.toString() ?? "";
-  //     sendData(email, password);
-  //   };
+  const { control, handleSubmit } = useForm({ mode: "onTouched" });
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const id = useSelector(selectId);
+  console.log(id);
 
-  //   const sendData = (email, password) => {
-  //     console.log(email, password);
-  //     agent.Auth.login({ email, password })
-  //       .then((res) => console.log(res))
-  //       .catch((err) => console.log(err))
-  //       .finally(() => console.log("Finally triggered"));
-  //   };
+  const handleSubmitButton = (data) => {
+    agent.Login.login(data.email, data.password)
+      .then((response) => {
+        dispatch(login(response.token));
+        console.log(response.token);
+        console.log(response);
+        navigate("/main/welcome");
+      })
+      .catch((error) => {
+        let errorMessage = error.response.data.errors;
+        console.log(errorMessage);
+        console.log(error.response);
+      })
+      .finally(() => {
+        console.log("finally");
+      });
+  };
+
   return (
-    <>
-      <CssBaseline />
-      <Container component="main" maxWidth="md">
-        <Box
-          component="form"
-          sx={{
-            mt: 1,
-            marginTop: 8,
-            marginLeft: 24,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            borderRadius: 3,
-            border: "#000000",
-            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.5)",
-            padding: 4,
-            width: 470,
-            height: 470,
-          }}
-          //   onSubmit={handleSubmit}
-          noValidate
+    <ThemeProvider theme={theme}>
+      <Grid
+        container
+        justifyContent="center"
+        alignItems="center"
+        sx={{
+          height: "100vh",
+          background: "linear-gradient(to bottom, #d4fcdf, #10B981)",
+        }}
+      >
+        <Grid
+          item
+          xs={10}
+          sm={5}
+          md={5}
+          lg={5}
+          xl={5}
+          sx={{ textAlign: "center" }}
         >
-          <Typography
-            component="h1"
-            variant="h5"
-            sx={{ fontFamily: "Marck Script, cursive", fontSize: "45px" }}
-          >
-            ParknMove
-          </Typography>
+          <Paper elevation={3} sx={{ p: 4, border: "2px" }}>
+            <Typography
+              variant="h2"
+              component="h2"
+              sx={{
+                fontWeight: "bold",
+                mb: 2,
+                fontSize: { xs: 40, sm: 40, md: 45, lg: 55, xl: 70 },
+              }}
+            >
+              ParknMove
+            </Typography>
+            <Typography variant="h3">Iniciar sesión</Typography>
+            <Typography variant="h6" sx={{ mb: 4 }}>
+              ¡Hola! Qué gusto verte otra vez.
+            </Typography>
 
-          <br />
+            <form onSubmit={handleSubmit(handleSubmitButton)} sx={{ mt: 4 }}>
+              <Controller
+                name="email"
+                control={control}
+                defaultValue=""
+                render={({ field }) => (
+                  <TextField
+                    margin="dense"
+                    fullWidth
+                    label="Correo electrónico"
+                    autoFocus
+                    {...field}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <EmailIcon />
+                        </InputAdornment>
+                      ),
+                    }}
+                    sx={{ mb: 2 }}
+                  />
+                )}
+                rules={{ required: "Campo obligatorio" }}
+              />
 
-          <TextField
-            margin="normal"
-            required
-            id="user"
-            label="Correo electrónico o usuario"
-            name="user"
-            InputLabelProps={{
-              sx: {
-                fontFamily: "Mulish, sans-serif",
-                fontWeight: 300,
-              },
-            }}
-            sx={{
-              boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.3)",
-              width: 350,
-            }}
-          />
+              <Controller
+                name="password"
+                control={control}
+                defaultValue=""
+                render={({ field }) => (
+                  <TextField
+                    margin="dense"
+                    fullWidth
+                    label="Contraseña"
+                    type="password"
+                    autoComplete="current-password"
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <LockIcon />
+                        </InputAdornment>
+                      ),
+                    }}
+                    {...field}
+                  />
+                )}
+                rules={{ required: "Campo obligatorio" }}
+              />
 
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="password"
-            label="Contraseña"
-            name="password"
-            type="password"
-            InputLabelProps={{
-              sx: {
-                fontFamily: "Mulish, sans-serif",
-                fontWeight: 300,
-              },
-            }}
-            sx={{
-              boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.3)",
-              width: 350,
-              mt: 3,
-              mb: 0,
-            }}
-          />
+              <Button
+                fullWidth
+                variant="contained"
+                color="primary"
+                sx={{ mt: 3, mb: 2 }}
+                type="submit"
+              >
+                Iniciar sesión
+              </Button>
 
-          <Box>
-            <p className="p-forgot-password">
-              ¿Te olvidaste de tu contraseña?{" "}
-              <a className="a-forgot-password" href="#">
-                {" "}
-                Restablecer contraseña
-              </a>
-            </p>
-          </Box>
-
-          <Button
-            type="submit"
-            variant="contained"
-            sx={{
-              mt: 1,
-              mb: 3,
-              width: 350,
-              borderRadius: 3,
-              background: "linear-gradient(to right, #3969FC, #4B2AFF)",
-              fontFamily: "Murecho, sans-serif",
-              fontWeight: 400,
-              fontSize: 25,
-              textTransform: "none",
-              height: 45,
-            }}
-          >
-            Entrar
-          </Button>
-
-          <hr className="custom-hr" />
-
-          <Box sx={{ mt: 3 }}>
-            <p className="p-forgot-password-v2">
-              ¿No tienes cuenta?{" "}
-              <a className="a-forgot-password" href="#">
-                {" "}
-                Regístrate
-              </a>
-            </p>
-          </Box>
-        </Box>
-      </Container>
-    </>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              ></Box>
+            </form>
+          </Paper>
+        </Grid>
+      </Grid>
+    </ThemeProvider>
   );
 };
 

@@ -1,11 +1,21 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import App from "../layout/App";
 import Login from "../../features/auth/Login";
+import Welcome from "../../features/account/Welcome";
+import RequireAuth from "./RequireAuth";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    children: [{ path: "/", element: <Login /> }],
+    children: [
+      { path: "/", element: <Navigate to={"/main/welcome"} /> },
+      { path: "/login", element: <Login /> },
+      {
+        path: "/main",
+        element: <RequireAuth />,
+        children: [{ path: "welcome", element: <Welcome /> }],
+      },
+    ],
   },
 ]);
