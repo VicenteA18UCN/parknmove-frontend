@@ -65,7 +65,7 @@ const Parkings = () => {
 
   return (
     <>
-      <AppBar>
+      <AppBar position="static">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
