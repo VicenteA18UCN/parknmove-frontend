@@ -1,6 +1,6 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "https://parknmoveback.azurewebsites.net/";
+axios.defaults.baseURL = "http://localhost:4000/";
 
 const responseBody = (response) => response.data;
 
