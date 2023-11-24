@@ -2,9 +2,7 @@ import * as React from "react";
 import {
   Button,
   Container,
-  TextField,
   Typography,
-  Grid,
   Paper,
 } from "@mui/material";
 import AppBar from '@mui/material/AppBar';
@@ -12,9 +10,6 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import Avatar from '@mui/material/Avatar';
-import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import Table from '@mui/material/Table';
@@ -26,18 +21,14 @@ import TableRow from '@mui/material/TableRow';
 
 import agent from "../../app/api/agent";
 
-import { selectId, selectName, selectLastname } from "../account/userSlice";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { logout } from "./userSlice";
 
 const pages = ['Usuarios', 'Estacionamientos', 'Reportes'];
 
 
 const Parkings = () => {
-  const name = useSelector(selectName);
-  const lastname = useSelector(selectLastname);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const [Parkings, setParkings] = React.useState([]);
 
@@ -55,16 +46,9 @@ const getParkings = async () => {
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
   };
 
   const dispatch = useDispatch();
@@ -164,6 +148,15 @@ const getParkings = async () => {
             </Button>
           ))}
         </Box>
+
+        <Button
+                variant="contained"
+                color="secondary"
+                sx={{ mt: 3, mb: 2 }}
+                onClick={handleLogout}
+              >
+                Cerrar sesión
+              </Button>
       </Toolbar>
     </Container>
   </AppBar>

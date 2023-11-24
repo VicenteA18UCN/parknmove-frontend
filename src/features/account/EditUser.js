@@ -2,7 +2,9 @@ import * as React from "react";
 import {
   Button,
   Container,
+  TextField,
   Typography,
+  Grid,
   Paper,
 } from "@mui/material";
 import AppBar from '@mui/material/AppBar';
@@ -13,38 +15,53 @@ import Menu from '@mui/material/Menu';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormControl from "@material-ui/core/FormControl";
+import FormLabel from "@material-ui/core/FormLabel";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import Radio from "@material-ui/core/Radio";
+import Select from "@material-ui/core/Select";
+import Slider from "@material-ui/core/Slider";
+
 
 import agent from "../../app/api/agent";
 
-import { selectName, selectLastname } from "../account/userSlice";
+import { selectId, selectName, selectLastname } from "../account/userSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "./userSlice";
 
 const pages = ['Usuarios', 'Estacionamientos', 'Reportes'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
-const Users = () => {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
-
-  const [Users, setUsers] = React.useState([]);
-
-const getUsers = async () => {
-  agent.GetUsers.getUsers().then((response) => {
-    setUsers(response.users);
-    console.log(response.users);
-  });
+const defaultValues = {
+  name: "",
+  lastname: "",
+  email: "",
+  priority: null,
 };
 
-  React.useEffect(() => {
-    getUsers();
-  }, []);
+const Users = () => {
+
+  const [anchorElNav, setAnchorElNav] = React.useState(null);
+
+  const [formValues, setFormValues] = React.useState(defaultValues);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormValues({
+      ...formValues,
+      [name]: value,
+    });
+  };
+  const handleSliderChange = (name) => (e, value) => {
+    setFormValues({
+      ...formValues,
+      [name]: value,
+    });
+  };
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(formValues);
+  };
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -52,10 +69,6 @@ const getUsers = async () => {
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
   };
 
   const dispatch = useDispatch();
@@ -167,69 +180,115 @@ const getUsers = async () => {
                 Cerrar sesión
               </Button>
             </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
           </Box>
       </Toolbar>
     </Container>
   </AppBar>
-
-  <TableContainer component={Paper}>
-  <Table sx={{ minWidth: 650 }} aria-label="simple table">
-    <TableHead>
-      <TableRow>
-        <TableCell>Nombre</TableCell>
-        <TableCell align="right">Apellido </TableCell>
-        <TableCell align="right">Correo</TableCell>
-        <TableCell align="right">Prioridad</TableCell>
-        <TableCell align="right">Acciones</TableCell>
-      </TableRow>
-    </TableHead>
-    <TableBody>
-      {Users.map((user) => (
-        <TableRow
-          key={user.name}
-          sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-        >
-          <TableCell component="th" scope="row">
-            {user.name}
-          </TableCell>
-          <TableCell align="right">{user.lastname}</TableCell>
-          <TableCell align="right">{user.email}</TableCell>
-          <TableCell align="right">
-            {user.priority === 0 ? 'Usuario normal' : 'Administrador'}
-          </TableCell>
-          <TableCell href="#admin" align="right">Editar</TableCell>
-        </TableRow>
-      ))}
-    </TableBody>
-  </Table>
-</TableContainer>
+  <form onSubmit={handleSubmit}>
+      <Grid container alignItems="center" justify="center" direction="column">
+        <Grid item>
+          <TextField
+            id="name-input"
+            name="name"
+            label="Name"
+            type="text"
+            value={formValues.name}
+            onChange={handleInputChange}
+          />
+        </Grid>
+        <Grid item>
+          <TextField
+            id="age-input"
+            name="age"
+            label="Age"
+            type="number"
+            value={formValues.age}
+            onChange={handleInputChange}
+          />
+        </Grid>
+        <Grid item>
+          <FormControl>
+            <FormLabel>Gender</FormLabel>
+            <RadioGroup
+              name="gender"
+              value={formValues.gender}
+              onChange={handleInputChange}
+              row
+            >
+              <FormControlLabel
+                key="male"
+                value="male"
+                control={<Radio size="small" />}
+                label="Male"
+              />
+              <FormControlLabel
+                key="female"
+                value="female"
+                control={<Radio size="small" />}
+                label="Female"
+              />
+              <FormControlLabel
+                key="other"
+                value="other"
+                control={<Radio size="small" />}
+                label="Other"
+              />
+            </RadioGroup>
+          </FormControl>
+        </Grid>
+        <Grid item>
+          <FormControl>
+            <Select
+              name="os"
+              value={formValues.os}
+              onChange={handleInputChange}
+            >
+              <MenuItem key="mac" value="mac">
+                Mac
+              </MenuItem>
+              <MenuItem key="windows" value="windows">
+                Windows
+              </MenuItem>
+              <MenuItem key="linux " value="linux">
+                Linux
+              </MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item>
+          <div style={{ width: "400px" }}>
+            Favorite Number
+            <Slider
+              value={formValues.favoriteNumber}
+              onChange={handleSliderChange("favoriteNumber")}
+              defaultValue={1}
+              step={1}
+              min={1}
+              max={3}
+              marks={[
+                {
+                  value: 1,
+                  label: "1",
+                },
+                {
+                  value: 2,
+                  label: "2",
+                },
+                {
+                  value: 3,
+                  label: "3",
+                },
+              ]}
+              valueLabelDisplay="off"
+            />
+          </div>
+        </Grid>
+        <Button variant="contained" color="primary" type="submit">
+          Submit
+        </Button>
+      </Grid>
+    </form>
 </>
-
-
-
-    
   );
 };
 

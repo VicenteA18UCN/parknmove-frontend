@@ -4,6 +4,7 @@ import Login from "../../features/auth/Login";
 import Welcome from "../../features/account/Welcome";
 import RequireAuth from "./RequireAuth";
 import Users from "../../features/account/Users";
+import EditUser from "../../features/account/EditUser";
 import Parkings from "../../features/account/Parkings";
 
 export const router = createBrowserRouter([
@@ -16,18 +17,13 @@ export const router = createBrowserRouter([
       {
         path: "/main",
         element: <RequireAuth />,
-        children: [{ path: "welcome", element: <Welcome /> }],
+        children: [
+          { path: "welcome", element: <Welcome /> },
+          { path: "users", element: <Users /> },
+          { path: "editUser", element: <EditUser /> },
+          { path: "parkings", element: <Parkings /> }
+        ]
       },
-      {
-        path: "/main",
-        element: <RequireAuth />,
-        children: [{ path: "users", element: <Users /> }],
-      },
-      {
-        path: "/main",
-        element: <RequireAuth />,
-        children: [{ path: "parkings", element: <Parkings /> }],
-      }
     ],
   },
 ]);
