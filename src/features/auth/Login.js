@@ -45,8 +45,7 @@ const Login = () => {
       })
       .catch((error) => {
         let errorMessage = error.response.data.errors;
-        console.log(errorMessage);
-        console.log(error.response);
+        console.log(error);
       })
       .finally(() => {
         console.log("finally");
