@@ -40,23 +40,13 @@ const theme = createTheme({
 });
 
 const Login = () => {
-  const { control, handleSubmit } = useForm({ mode: "onTouched" });
+  const { control, handleSubmit, reset } = useForm({ mode: "onTouched" });
   const [showPassword, setShowPassword] = React.useState(false);
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const id = useSelector(selectId);
   console.log(id);
-
-  const resetFormFields = () => {
-    const emailField = document.getElementById("email");
-    const passwordField = document.getElementById("password");
-
-    if (emailField && passwordField) {
-      emailField.value = "";
-      passwordField.value = "";
-    }
-  };
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -128,7 +118,7 @@ const Login = () => {
         dispatch(login(response.token));
         console.log(response.token);
         console.log(response);
-        navigate("/main/welcome");
+        navigate("/main/users");
       })
       .catch((error) => {
         let errorMessage = "Ha ocurrido un error. Intente nuevamente.";
@@ -146,7 +136,7 @@ const Login = () => {
           theme: "light",
         });
         setTimeout(() => {
-          resetFormFields();
+          reset({ email: "", password: "" });
         }, 300);
       })
       .finally(() => {
@@ -162,7 +152,7 @@ const Login = () => {
         alignItems="center"
         sx={{
           height: "100vh",
-          background: "linear-gradient(to bottom, #d4fcdf, #10B981)",
+          background: "linear-gradient(to bottom, #b3c2d1, #1976D2)",
         }}
       >
         <Container>

@@ -1,12 +1,5 @@
 import * as React from "react";
-import { Button, Container, Typography, Paper } from "@mui/material";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
+import { Paper } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -16,21 +9,12 @@ import TableRow from "@mui/material/TableRow";
 
 import agent from "../../app/api/agent";
 
-import { selectName, selectLastname } from "./userSlice";
-import { useSelector, useDispatch } from "react-redux";
-import { logout } from "./userSlice";
 import Navbar from "../../app/layout/Navbar";
 
 const pages = ["Usuarios", "Estacionamientos", "Reportes"];
 
 const Parkings = () => {
-  const name = useSelector(selectName);
-  const lastname = useSelector(selectLastname);
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
-
   const [Parkings, setParkings] = React.useState([]);
-
   const getParkings = async () => {
     agent.GetParkings.getParkings().then((response) => {
       setParkings(response.parkings);
@@ -41,28 +25,6 @@ const Parkings = () => {
   React.useEffect(() => {
     getParkings();
   }, []);
-
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
-
-  const dispatch = useDispatch();
-
-  const handleLogout = () => {
-    dispatch(logout());
-    window.location.reload();
-  };
 
   return (
     <>
