@@ -16,7 +16,7 @@ import TableRow from "@mui/material/TableRow";
 
 import agent from "../../app/api/agent";
 
-import { selectName, selectLastname } from "../account/userSlice";
+import { selectName, selectLastname } from "./userSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "./userSlice";
 

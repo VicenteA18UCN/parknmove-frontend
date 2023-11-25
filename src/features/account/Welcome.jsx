@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Button, Typography, Grid } from "@mui/material";
 import Box from "@mui/material/Box";
-import { selectName, selectLastname } from "../account/userSlice";
+import { selectName, selectLastname } from "./userSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "./userSlice";
 
