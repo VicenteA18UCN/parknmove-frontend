@@ -1,6 +1,6 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "https://parknmoveback.azurewebsites.net/";
+axios.defaults.baseURL = "http://localhost:4000/";
 
 const responseBody = (response) => response.data;
 
@@ -15,8 +15,18 @@ const Login = {
   login: (email, password) => requests.post("user/login", { email, password }),
 };
 
+const GetUsers = {
+  getUsers: () => requests.get("user/getUsers"),
+};
+
+const GetParkings = {
+  getParkings: () => requests.get("parking/getParkings"),
+};
+
 const agent = {
   Login,
+  GetUsers,
+  GetParkings,
 };
 
 export default agent;
