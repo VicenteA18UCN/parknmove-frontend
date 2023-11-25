@@ -9,6 +9,7 @@ import AdbIcon from "@mui/icons-material/Adb";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import { logout } from "../../features/account/userSlice";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const pages = ["Usuarios", "Estacionamientos", "Reportes"];
@@ -16,6 +17,7 @@ const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const dispatch = useDispatch();
+  const navigation = useNavigate();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -31,6 +33,15 @@ const Navbar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const handleUsers = () => {
+    navigation("/main/users");
+  };
+
+  const handleParkings = () => {
+    navigation("/main/parkings");
+  };
+
   const handleLogout = () => {
     dispatch(logout());
     window.location.reload();
@@ -113,15 +124,23 @@ const Navbar = () => {
             LOGO
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                {page}
-              </Button>
-            ))}
+            {pages.map((page) => {
+              let handleClick;
+              if (page === "Usuarios") {
+                handleClick = handleUsers;
+              } else if (page === "Estacionamientos") {
+                handleClick = handleParkings;
+              }
+              return (
+                <Button
+                  key={page}
+                  onClick={handleClick}
+                  sx={{ my: 2, color: "white", display: "block" }}
+                >
+                  {page}
+                </Button>
+              );
+            })}
           </Box>
           {auth && (
             <div>
