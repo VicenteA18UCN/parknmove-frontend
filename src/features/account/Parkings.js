@@ -13,6 +13,8 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import EditForm from "./EditForm";
+import Dialog from '@mui/material/Dialog';
 
 import agent from "../../app/api/agent";
 
@@ -29,6 +31,15 @@ const Parkings = () => {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const [Parkings, setParkings] = React.useState([]);
+
+  const [editModal, setEditModal] = React.useState(false);
+  const [selectedParking, setSelectedParking] = React.useState(null);
+
+
+  const handleEdit = (parking) => {
+    setSelectedParking(parking);
+    setEditModal(true);
+  }
 
   const getParkings = async () => {
     agent.GetParkings.getParkings().then((response) => {
@@ -181,13 +192,24 @@ const Parkings = () => {
                 <TableCell align="right">{parking.floor_count}</TableCell>
                 <TableCell align="right">{parking.places_per_floor}</TableCell>
                 <TableCell href="#admin" align="right">
-                  Editar
+                  <Button variant="contained" color="primary" onClick={() => handleEdit(parking)}>
+                    Editar
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
+
+      <Dialog
+        open={editModal}
+      >
+        <EditForm parking={selectedParking} />
+      </Dialog>
+
+     
+      
     </>
   );
 };

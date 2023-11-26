@@ -24,13 +24,14 @@ const GetParkings = {
 };
 
 const EditParking = {
-  editParking: (parking) => requests.put("parking/editParking", parking),
+  editParking: (parkingId, newParking) => requests.put(`parking/editParking/${parkingId}`, newParking),
 };
 
 const agent = {
   Login,
   GetUsers,
   GetParkings,
+  EditParking,
 };
 
 export default agent;
