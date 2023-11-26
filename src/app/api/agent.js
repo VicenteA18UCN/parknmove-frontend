@@ -27,9 +27,9 @@ const GetUsers = {
   getUsers: () => requests.get("user/getUsers"),
 };
 
-const EditUser = {
-  editUser: (id, name, lastname, email, priority) =>
-    requests.put("user/updateUser", { id, name, lastname, email, priority }),
+const Update = {
+  update: (user) =>
+  requests.put(`user/updateUser/`, { user }),
 };
 
 const GetParkings = {
@@ -45,7 +45,7 @@ const Search = {
 const agent = {
   Login,
   GetUsers,
-  EditUser,
+  Update,
   GetParkings,
   Search
 };
