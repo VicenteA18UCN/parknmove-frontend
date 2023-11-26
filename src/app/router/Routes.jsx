@@ -5,6 +5,7 @@ import Welcome from "../../features/account/Welcome";
 import RequireAuth from "./RequireAuth";
 import Users from "../../features/account/Users";
 import Parkings from "../../features/account/Parkings";
+import EditForm from "../../features/account/EditForm";
 
 export const router = createBrowserRouter([
   {
@@ -13,6 +14,7 @@ export const router = createBrowserRouter([
     children: [
       { path: "/", element: <Navigate to={"/main/welcome"} /> },
       { path: "/login", element: <Login /> },
+      { path: "/edit", element: <EditForm /> },
       {
         path: "/main",
         element: <RequireAuth />,
@@ -20,6 +22,7 @@ export const router = createBrowserRouter([
           { path: "welcome", element: <Welcome /> },
           { path: "users", element: <Users /> },
           { path: "parkings", element: <Parkings /> },
+          
         ],
       },
     ],

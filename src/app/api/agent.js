@@ -23,6 +23,10 @@ const GetParkings = {
   getParkings: () => requests.get("parking/getParkings"),
 };
 
+const EditParking = {
+  editParking: (parking) => requests.put("parking/editParking", parking),
+};
+
 const agent = {
   Login,
   GetUsers,
