@@ -17,21 +17,29 @@ const Login = {
 
 const GetUsers = {
   getUsers: () => requests.get("user/getUsers"),
+  getUser: (userId) => requests.get(`user/getUser/${userId}`),
 };
 
 const GetParkings = {
   getParkings: () => requests.get("parking/getParkings"),
+  getParking: (parkingId) => requests.get(`parking/getParking/${parkingId}`),
 };
 
 const EditParking = {
   editParking: (parkingId, newParking) => requests.put(`parking/editParking/${parkingId}`, newParking),
 };
 
+const GetReservations = {
+  getReservations: () => requests.get("/reservations/history"),
+};
+
+
 const agent = {
   Login,
   GetUsers,
   GetParkings,
   EditParking,
+  GetReservations,
 };
 
 export default agent;
