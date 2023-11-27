@@ -27,14 +27,27 @@ const GetUsers = {
   getUsers: () => requests.get("user/getUsers"),
 };
 
+const Update = {
+  update: (user) =>
+  requests.put(`user/updateUser/`, { user }),
+};
+
 const GetParkings = {
   getParkings: () => requests.get("parking/getParkings"),
+};
+
+const Search = {
+  searchUser: (
+    searchData
+  ) => requests.post("user/searchUser", { searchData }),
 };
 
 const agent = {
   Login,
   GetUsers,
+  Update,
   GetParkings,
+  Search
 };
 
 export default agent;
