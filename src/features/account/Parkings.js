@@ -192,7 +192,7 @@ const Parkings = () => {
                 <TableCell align="right">{parking.floor_count}</TableCell>
                 <TableCell align="right">{parking.places_per_floor}</TableCell>
                 <TableCell href="#admin" align="right">
-                    Editar
+                  Editar           
                 </TableCell>
               </TableRow>
             ))}
