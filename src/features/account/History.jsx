@@ -66,9 +66,9 @@ const History = () => {
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                     <TableCell component="th" scope="row">
-                    {reservation.user_id}
+                    {reservation.userName + " " + reservation.userLastName}
                     </TableCell>
-                    <TableCell align="right">{reservation.parking_id}</TableCell>
+                    <TableCell align="right">{reservation.parkingAddress}</TableCell>
                     <TableCell align="right">{new Date(reservation.entry_time).toLocaleDateString()}</TableCell>
                     <TableCell align="right">{new Date(reservation.entry_time).toLocaleTimeString()}</TableCell>
                     <TableCell align="right">{reservation.exit_Time}</TableCell>

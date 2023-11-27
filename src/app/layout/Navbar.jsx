@@ -42,6 +42,10 @@ const Navbar = () => {
     navigation("/main/parkings");
   };
 
+  const handleReports = () => {
+    navigation("/main/report");
+  };
+
   const handleLogout = () => {
     dispatch(logout());
     window.location.reload();
@@ -130,6 +134,8 @@ const Navbar = () => {
                 handleClick = handleUsers;
               } else if (page === "Estacionamientos") {
                 handleClick = handleParkings;
+              } else {
+                handleClick = handleReports;
               }
               return (
                 <Button
