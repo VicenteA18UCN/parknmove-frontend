@@ -21,6 +21,10 @@ const Parkings = () => {
   const [editModal, setEditModal] = React.useState(false);
   const [selectedParking, setSelectedParking] = React.useState(null);
 
+  const handleCloseEditModal = () => {
+    setEditModal(false);
+  };
+
 
   const handleEdit = (parking) => {
     setSelectedParking(parking);
@@ -77,11 +81,9 @@ const Parkings = () => {
           </Table>
         </TableContainer>
 
-        <Dialog
-          open={editModal}
-        >
-          <EditForm parking={selectedParking} />
-        </Dialog>
+        <Dialog open={editModal} onClose={handleCloseEditModal}>
+        <EditForm parking={selectedParking} onClose={handleCloseEditModal} />
+      </Dialog>
 
     </>
   );

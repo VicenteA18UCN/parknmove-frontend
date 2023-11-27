@@ -14,7 +14,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Navbar from "../../app/layout/Navbar";
-
 import agent from "../../app/api/agent";
 
 import { selectName, selectLastname } from "./userSlice";
