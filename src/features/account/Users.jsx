@@ -30,6 +30,7 @@ import Navbar from "../../app/layout/Navbar";
 import SearchIcon from '@mui/icons-material/Search';
 import validator from 'validator';
 import { useEffect } from "react";
+import { set } from "react-hook-form";
 
 const Users = () => {
   const [Users, setUsers] = React.useState([]);
@@ -81,6 +82,7 @@ const Users = () => {
   }
 
   useEffect(() => {
+    console.log("priority: ", formData.priority);
     if (formData.priority < 0 || formData.priority > 1) {
       setHelperPriority('Privilegio inválido');
       setErrorPriority(true);
@@ -91,7 +93,8 @@ const Users = () => {
   }, [formData.priority]);
 
   useEffect(() => {
-    if (formData.email !== "") {
+    console.log("email: ", formData.email);
+    if (formData.email) {
       if (!validator.isEmail(formData.email)) {
         setHelperEmail('Correo inválido');
         setErrorEmail(true);
@@ -103,7 +106,8 @@ const Users = () => {
   }, [formData.email]);
 
   useEffect(() => {
-    if (formData.name !== "") {
+    console.log("name: ", formData.name);
+    if (formData.name) {
       if (formData.name.match(/\d+/g)) {
         setHelperName('Campo inválido');
         setErrorName(true);
@@ -115,7 +119,8 @@ const Users = () => {
   }, [formData.name]);
 
   useEffect(() => {
-    if (formData.lastname !== "") {
+    console.log("lastname: ", formData.lastname);
+    if (formData.lastname) {
       if (formData.lastname.match(/\d+/g)) {
         setHelperLastname('Campo inválido');
         setErrorLastname(true);
@@ -127,8 +132,8 @@ const Users = () => {
   }, [formData.lastname]);
 
   const handleEdit = async (userId) => {
-    console.log(formData);
-    console.log(errorName, errorLastname, errorEmail, errorPriority);
+    console.log("formdata1: ", formData);
+    console.log("erros: ", errorName, errorLastname, errorEmail, errorPriority);
   
     console.log(errorName, errorLastname, errorEmail, errorPriority);
     if (errorName || errorLastname || errorEmail || errorPriority){
@@ -145,6 +150,9 @@ const Users = () => {
         handleCloseEdit();
         console.log(`Usuario con ID ${currentUserId} editado`);
     } catch (error) {
+        if (error.response.status === 400 && error.response.data.message === "Correo ya registrado") {
+          setHelperEmail('Correo ya registrado');
+        }
         console.error(`Error al editar usuario con ID ${currentUserId}`, error);
     }
   };
@@ -174,11 +182,6 @@ const Users = () => {
     setHelperPriority();
     setOpenEdit(false);
   };
-
-  const handlePriorityChange = (event) => {
-    console.log(event);
-    setFormData({ priority: event.priority });
-  }
 
   return (
     <>
@@ -285,7 +288,7 @@ const Users = () => {
                                   aria-labelledby="demo-controlled-radio-buttons-group"
                                   name="controlled-radio-buttons-group"
                                   value={formData.priority}
-                                  onChange={(e) => handlePriorityChange({ priority: e.target.value })}
+                                  onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
                                 >
                                   <FormControlLabel value="1" control={<Radio />} label="Administrador" />
                                   <FormControlLabel value="0" control={<Radio />} label="Usuario" />
