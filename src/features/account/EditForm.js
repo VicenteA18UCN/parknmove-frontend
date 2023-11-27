@@ -2,9 +2,6 @@ import React, { useState } from 'react';
 import agent from '../../app/api/agent';
 import { Button, TextField, Typography, Grid, Paper, Dialog } from "@mui/material";
 import Box from "@mui/material/Box";
-import InputAdornment from "@mui/material/InputAdornment";
-import EmailIcon from "@mui/icons-material/Email";
-import LockIcon from "@mui/icons-material/Lock";
 import { Controller, useForm } from "react-hook-form";
 
 const EditForm = ({ parking }) => {
@@ -22,7 +19,7 @@ const EditForm = ({ parking }) => {
         console.log("Formulario enviado", parkings);
         try{
           console.log(parkings);
-          agent.EditParking.editParking(parkingId, parkings);
+          agent.EditParking.editParking(parkings);
 
         }catch(error){
           console.log(error);

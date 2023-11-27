@@ -26,7 +26,7 @@ const GetParkings = {
 };
 
 const EditParking = {
-  editParking: (parkingId, newParking) => requests.put(`parking/editParking/${parkingId}`, newParking),
+  editParking: (newParking) => requests.put(`parking/editParking`, { newParking }),
 };
 
 const GetReservations = {
