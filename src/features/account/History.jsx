@@ -44,10 +44,10 @@ const History = () => {
   }, []);
 
   return (
-    <>
-|     <Navbar />
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+  <>
+  <Navbar />
+    <TableContainer component={Paper}>
+       <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell>Nombre Usuario</TableCell>
