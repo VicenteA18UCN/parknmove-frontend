@@ -25,7 +25,11 @@ const Login = {
 
 const GetUsers = {
   getUsers: () => requests.get("user/getUsers"),
-  getUser: (userId) => requests.get(`user/getUser/${userId}`),
+};
+
+const Update = {
+  update: (user) =>
+  requests.put(`user/updateUser/`, { user }),
 };
 
 const GetParkings = {
@@ -42,12 +46,20 @@ const GetReservations = {
 };
 
 
+const Search = {
+  searchUser: (
+    searchData
+  ) => requests.post("user/searchUser", { searchData }),
+};
+
 const agent = {
   Login,
   GetUsers,
+  Update,
   GetParkings,
   EditParking,
   GetReservations,
+  Search
 };
 
 export default agent;
