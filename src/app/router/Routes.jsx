@@ -1,6 +1,7 @@
 import React from "react";
-import { createBrowserRouter, Navigate } from "react-router-dom";
+import { createBrowserRouter, Navigate, BrowserRouter } from "react-router-dom";
 import App from "../layout/App";
+import Navbar from "../layout/Navbar";
 import Login from "../../features/auth/Login";
 import Welcome from "../../features/account/Welcome";
 import RequireAuth from "./RequireAuth";
@@ -26,3 +27,9 @@ export const router = createBrowserRouter([
     ],
   },
 ]);
+
+export const AppRouter = () => (
+  <BrowserRouter>
+    {router}
+  </BrowserRouter>
+);
