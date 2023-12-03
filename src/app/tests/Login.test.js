@@ -101,4 +101,65 @@ describe("Login", () => {
       expect(toastElement).toBeInTheDocument();
     });
   });
+
+  test("enter valid email and password but the user does not exist", async () => {
+    render(
+      <Provider store={store}>
+        <PersistGate persistor={persistor}>
+          <React.StrictMode>
+            <RouterProvider router={router} />
+          </React.StrictMode>
+        </PersistGate>
+      </Provider>
+    );
+
+    const emailInput = screen.getByLabelText(/correo electrónico/i);
+    const passwordInput = screen.getByLabelText(/contraseña/i);
+    const submitButton = screen.getByRole("button", {
+      name: /iniciar sesión/i,
+    });
+
+    act(() => {
+      userEvent.type(emailInput, "vicente.alarcon@gmail.com");
+      userEvent.type(passwordInput, "123456asdas");
+    });
+
+    fireEvent.click(submitButton);
+
+    await waitFor(() => {
+      const toastElement = screen.getByText(
+        /Usuario o contraseña incorrectos./i
+      );
+      expect(toastElement).toBeInTheDocument();
+    });
+  });
+
+  test("enter valid email and password and the user exists", async () => {
+    render(
+      <Provider store={store}>
+        <PersistGate persistor={persistor}>
+          <React.StrictMode>
+            <RouterProvider router={router} />
+          </React.StrictMode>
+        </PersistGate>
+      </Provider>
+    );
+
+    const emailInput = screen.getByLabelText(/correo electrónico/i);
+    const passwordInput = screen.getByLabelText(/contraseña/i);
+    const submitButton = screen.getByRole("button", {
+      name: /iniciar sesión/i,
+    });
+
+    act(() => {
+      userEvent.type(emailInput, "admin@parknmove.com");
+      userEvent.type(passwordInput, "password");
+    });
+
+    fireEvent.click(submitButton);
+
+    await waitFor(() => {
+      expect(window.location.pathname).toBe("/main/users");
+    });
+  });
 });
