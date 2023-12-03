@@ -1,5 +1,11 @@
 import React from "react";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import {
+  render,
+  screen,
+  fireEvent,
+  waitFor,
+  act,
+} from "@testing-library/react";
 import toast from "react-toastify";
 import Login from "../../features/auth/Login";
 import { Provider } from "react-redux";
@@ -63,6 +69,35 @@ describe("Login", () => {
 
     await waitFor(() => {
       const toastElement = screen.getByText(/Debe completar todos los campos/i);
+      expect(toastElement).toBeInTheDocument();
+    });
+  });
+  test("shows a toast when email is invalid", async () => {
+    render(
+      <Provider store={store}>
+        <PersistGate persistor={persistor}>
+          <React.StrictMode>
+            <RouterProvider router={router} />
+          </React.StrictMode>
+        </PersistGate>
+      </Provider>
+    );
+
+    const emailInput = screen.getByLabelText(/correo electrónico/i);
+    const passwordInput = screen.getByLabelText(/contraseña/i);
+    const submitButton = screen.getByRole("button", {
+      name: /iniciar sesión/i,
+    });
+
+    act(() => {
+      userEvent.type(emailInput, "invalidemail");
+      userEvent.type(passwordInput, "123456");
+    });
+
+    fireEvent.click(submitButton);
+
+    await waitFor(() => {
+      const toastElement = screen.getByText(/El email no es válido./i);
       expect(toastElement).toBeInTheDocument();
     });
   });
