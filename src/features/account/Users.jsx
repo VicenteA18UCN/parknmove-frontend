@@ -82,7 +82,6 @@ const Users = () => {
   }
 
   useEffect(() => {
-    console.log("priority: ", formData.priority);
     if (formData.priority < 0 || formData.priority > 1) {
       setHelperPriority('Privilegio inválido');
       setErrorPriority(true);
@@ -93,7 +92,6 @@ const Users = () => {
   }, [formData.priority]);
 
   useEffect(() => {
-    console.log("email: ", formData.email);
     if (formData.email) {
       if (!validator.isEmail(formData.email)) {
         setHelperEmail('Correo inválido');
@@ -106,7 +104,6 @@ const Users = () => {
   }, [formData.email]);
 
   useEffect(() => {
-    console.log("name: ", formData.name);
     if (formData.name) {
       if (formData.name.match(/\d+/g)) {
         setHelperName('Campo inválido');
@@ -119,7 +116,6 @@ const Users = () => {
   }, [formData.name]);
 
   useEffect(() => {
-    console.log("lastname: ", formData.lastname);
     if (formData.lastname) {
       if (formData.lastname.match(/\d+/g)) {
         setHelperLastname('Campo inválido');
@@ -132,10 +128,6 @@ const Users = () => {
   }, [formData.lastname]);
 
   const handleEdit = async (userId) => {
-    console.log("formdata1: ", formData);
-    console.log("erros: ", errorName, errorLastname, errorEmail, errorPriority);
-  
-    console.log(errorName, errorLastname, errorEmail, errorPriority);
     if (errorName || errorLastname || errorEmail || errorPriority){
       return;
     }
