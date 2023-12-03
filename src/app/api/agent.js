@@ -34,7 +34,17 @@ const Update = {
 
 const GetParkings = {
   getParkings: () => requests.get("parking/getParkings"),
+  getParking: (parkingId) => requests.get(`parking/getParking/${parkingId}`),
 };
+
+const EditParking = {
+  editParking: (newParking) => requests.put(`parking/editParking`, { newParking }),
+};
+
+const GetReservations = {
+  getReservations: () => requests.get("/reservations/history"),
+};
+
 
 const Search = {
   searchUser: (
@@ -47,6 +57,8 @@ const agent = {
   GetUsers,
   Update,
   GetParkings,
+  EditParking,
+  GetReservations,
   Search
 };
 

@@ -5,6 +5,8 @@ import Welcome from "../../features/account/Welcome";
 import RequireAuth from "./RequireAuth";
 import Users from "../../features/account/Users";
 import Parkings from "../../features/account/Parkings";
+import EditForm from "../../features/account/EditForm";
+import History from "../../features/account/History";
 
 export const router = createBrowserRouter([
   {
@@ -19,8 +21,10 @@ export const router = createBrowserRouter([
         children: [
           { path: "welcome", element: <Welcome /> },
           { path: "users", element: <Users /> },
-          { path: "parkings", element: <Parkings /> }
-        ]
+          { path: "parkings", element: <Parkings /> },
+          { path: "report", element: <History/> },
+          
+        ],
       },
     ],
   },
