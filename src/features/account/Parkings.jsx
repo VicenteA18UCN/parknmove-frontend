@@ -54,7 +54,7 @@ const Parkings = () => {
                 <TableCell align="right">{parking.base_price}</TableCell>
                 <TableCell align="right">{parking.floor_count}</TableCell>
                 <TableCell align="right">{parking.places_per_floor}</TableCell>
-                <TableCell href="#admin" align="right">
+                <TableCell href="#admin" align="right" color="success">
                   Editar
                 </TableCell>
               </TableRow>

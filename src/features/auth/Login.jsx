@@ -18,10 +18,11 @@ import EmailIcon from "@mui/icons-material/Email";
 import LockIcon from "@mui/icons-material/Lock";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../account/userSlice";
-import { selectId } from "../account/userSlice";
+import { login, logout } from "../account/userSlice";
+import { selectId, selectPriority } from "../account/userSlice";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import logo from "../auth/assets/icon.png";
 
 const theme = createTheme({
   palette: {
@@ -45,8 +46,9 @@ const Login = () => {
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const id = useSelector(selectId);
-  console.log(id);
+  const priority = useSelector(selectPriority);
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -116,9 +118,24 @@ const Login = () => {
     agent.Login.login(data.email, data.password)
       .then((response) => {
         dispatch(login(response.token));
-        console.log(response.token);
-        console.log(response);
-        navigate("/main/users");
+        if (priority === 0) {
+          dispatch(logout());
+          let errorMessage = "No tiene permisos para acceder.";
+          toast.error(errorMessage, {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: false,
+            progress: undefined,
+            theme: "light",
+          });
+        } else {
+          console.log(response.token);
+          console.log(response);
+          navigate("/main/users");
+        }
       })
       .catch((error) => {
         let errorMessage = "Ha ocurrido un error. Intente nuevamente.";
@@ -152,7 +169,7 @@ const Login = () => {
         alignItems="center"
         sx={{
           height: "100vh",
-          background: "linear-gradient(to bottom, #b3c2d1, #1976D2)",
+          background: "linear-gradient(to bottom, #9fe0cb, #10B981)",
         }}
       >
         <Container>
@@ -166,12 +183,25 @@ const Login = () => {
                 alignItems: "center",
               }}
             >
+              <img src={logo} alt="logo" width={256} height={200} />
               <Typography
                 component="h1"
                 variant="h5"
                 fontSize={35}
                 fontWeight={550}
                 fontFamily={"roboto"}
+                mt={3}
+                textAlign={"center"}
+              >
+                Panel de Administrador
+              </Typography>
+              <Typography
+                component="h1"
+                variant="h5"
+                fontSize={20}
+                fontWeight={550}
+                fontFamily={"roboto"}
+                mt={2}
               >
                 Inicia Sesión
               </Typography>
