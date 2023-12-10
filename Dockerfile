@@ -16,6 +16,7 @@ COPY . .
 # Build the React app
 RUN npm run build
 
+RUN npm test
 
 FROM nginx:alpine
 

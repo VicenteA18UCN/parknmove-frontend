@@ -6,8 +6,18 @@ const initialState = {
   name: null,
   lastname: null,
   email: null,
+  priority: null,
   token: null,
 };
+
+/**
+ * @param {object} state
+ * @param {object} action
+ * @returns {void}
+ * @description
+ * Esta función se encarga de guardar los datos del usuario en el store.
+ * @see jwtDecode
+ */
 
 export const userSlice = createSlice({
   name: "user",
@@ -19,6 +29,7 @@ export const userSlice = createSlice({
       state.name = payload.name;
       state.lastname = payload.lastname;
       state.email = payload.email;
+      state.priority = payload.priority;
       state.token = action.payload;
     },
     logout: (state) => {
@@ -27,6 +38,7 @@ export const userSlice = createSlice({
       state.lastname = null;
       state.email = null;
       state.token = null;
+      state.priority = null;
     },
   },
 });
@@ -36,5 +48,6 @@ export const selectId = (state) => state.user.id;
 export const selectName = (state) => state.user.name;
 export const selectLastname = (state) => state.user.lastname;
 export const selectEmail = (state) => state.user.email;
+export const selectPriority = (state) => state.user.priority;
 
 export const { login, logout } = userSlice.actions;

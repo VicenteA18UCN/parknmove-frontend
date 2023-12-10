@@ -10,6 +10,14 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import { logout } from "../../features/account/userSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import logo from "../../features/auth/assets/icon.png";
+import MenuIcon from "@mui/icons-material/Menu";
+
+/**
+ * @description
+ * Este componente define la barra de navegación de la aplicación.
+ * @returns {React.Component}
+ */
 
 const Navbar = () => {
   const pages = ["Usuarios", "Estacionamientos", "Reportes"];
@@ -52,10 +60,15 @@ const Navbar = () => {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{ background: "#d8ebe5" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+          <img
+            src={logo}
+            width={52}
+            height={46}
+            sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
+          />
           <Typography
             variant="h6"
             noWrap
@@ -70,9 +83,7 @@ const Navbar = () => {
               color: "inherit",
               textDecoration: "none",
             }}
-          >
-            LOGO
-          </Typography>
+          ></Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
@@ -81,8 +92,10 @@ const Navbar = () => {
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
-              color="inherit"
-            ></IconButton>
+              sx={{ mr: 2 }}
+            >
+              <MenuIcon />
+            </IconButton>
             <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
@@ -101,32 +114,24 @@ const Navbar = () => {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
+              {pages.map((page) => {
+                let handleClick;
+                if (page === "Usuarios") {
+                  handleClick = handleUsers;
+                } else if (page === "Estacionamientos") {
+                  handleClick = handleParkings;
+                } else {
+                  handleClick = handleReports;
+                }
+                return (
+                  <MenuItem key={page} onClick={handleClick}>
+                    <Typography textAlign="center">{page}</Typography>
+                  </MenuItem>
+                );
+              })}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{
-              mr: 2,
-              display: { xs: "flex", md: "none" },
-              flexGrow: 1,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            LOGO
-          </Typography>
+
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => {
               let handleClick;
@@ -141,7 +146,7 @@ const Navbar = () => {
                 <Button
                   key={page}
                   onClick={handleClick}
-                  sx={{ my: 2, color: "white", display: "block" }}
+                  sx={{ my: 2, color: "#163f35", display: "block" }}
                 >
                   {page}
                 </Button>
@@ -156,7 +161,7 @@ const Navbar = () => {
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
                 onClick={handleOpenUserMenu}
-                color="inherit"
+                color="#163f35"
               >
                 <AccountCircle />
               </IconButton>

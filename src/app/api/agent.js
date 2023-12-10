@@ -6,11 +6,21 @@ axios.defaults.baseURL = "http://localhost:4000/";
 const responseBody = (response) => response.data;
 axios.defaults.withCredentials = true;
 
+/**
+ * Este interceptor se encarga de añadir el token de autenticación a las peticiones
+ * que se realicen al servidor.
+ */
+
 axios.interceptors.request.use((config) => {
   const token = store.getState().user.token;
   if (token) config.headers.Authorization = "Bearer " + token;
   return config;
 });
+
+/**
+ * Este interceptor se encarga de capturar las solicitudas y capturar las respuestas que se produzcan en las peticiones 
+ * al servidor y de mostrarlos en la consola.
+ */
 
 const requests = {
   get: (url) => axios.get(url).then(responseBody),
