@@ -160,9 +160,9 @@ const Users = () => {
     setCurrentUser(user);
     setCurrentUserId(userId);
     setFormData({
-      name: currentUser.name,
-      lastname: currentUser.lastname,
-      email: currentUser.email,
+      name: user.name,
+      lastname: user.lastname,
+      email: user.email,
       priority: user.priority,
     });
     setOpenEdit(true);
@@ -337,7 +337,7 @@ const Users = () => {
             </DialogContent>
             <DialogActions>
               <Button color="error" onClick={() => handleCloseEdit()}>
-                Cancel
+                Cancelar
               </Button>
               <Button
                 onClick={() => handleEdit(currentUserId)}
