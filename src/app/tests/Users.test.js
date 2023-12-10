@@ -15,7 +15,8 @@ import { PersistGate } from "redux-persist/integration/react";
 import { persistor } from "../../app/store/store";
 import userEvent from "@testing-library/user-event";
 
-const newName = "Usuario1";
+const listName = ["Maria", "Diego", "Juan", "Pedro", "Luis", "Carlos", "Jorge", "Andres", "Santiago", "Felipe", "Camilo", "Mateo", "Daniel", "Alejandro", "Sebastian", "Nicolas", "Samuel", "David", "Gabriel", "Benjamin", "Lucas", "Emmanuel"];
+const newName = listName[Math.floor(Math.random() * listName.length)];
 const emailToFind = "usuario1@example.com";
 const editId = "editar-2";
 const id = "id-2";
@@ -118,7 +119,7 @@ describe("Users", () => {
     expect(firstDialogTitle).toBeInTheDocument();
   });
 
-  /*test(`After logging, should edit the name of ${emailToFind}`, async () => {
+  test(`After logging, should edit the name of ${emailToFind}`, async () => {
     render(
     <Provider store={store}>
         <PersistGate persistor={persistor}>
@@ -149,7 +150,7 @@ describe("Users", () => {
     });
   });
 
-    test("After logging, should not find users table with incorrect header", async () => {
+  test("After logging, should not find users table with incorrect header", async () => {
     render(
     <Provider store={store}>
         <PersistGate persistor={persistor}>
@@ -159,8 +160,6 @@ describe("Users", () => {
         </PersistGate>
     </Provider>
     );
-
-    await loginUser();
 
     await expect(screen.findByText(/Nombres/i)).rejects.toThrow();
   });
@@ -176,14 +175,12 @@ describe("Users", () => {
     </Provider>
     );
 
-    await loginUser();
-
     await expect(waitFor(() => {
-      screen.getAllByText(/Diego/i);
+      screen.getAllByText(new RegExp(newName, 'i'));
     }, { timeout: 1 })).rejects.toThrow();
   });
 
-  test("After logging, should not find users with name Pedro", async () => {
+  test("After logging, should not find users with name wrongName", async () => {
     render(
     <Provider store={store}>
         <PersistGate persistor={persistor}>
@@ -194,12 +191,10 @@ describe("Users", () => {
     </Provider>
     );
 
-    await loginUser();
-
-    await expect(screen.findByText(/Pedro/i)).rejects.toThrow();
+    await expect(screen.findByText(/wrongName/i)).rejects.toThrow();
   });
 
-  test("After logging, should not find users with name Diego within incorrect timeout", async () => {
+  test("After logging, should not find users with name Usuario1 within incorrect timeout", async () => {
     render(
     <Provider store={store}>
         <PersistGate persistor={persistor}>
@@ -210,10 +205,8 @@ describe("Users", () => {
     </Provider>
     );
 
-    await loginUser();
-
     await expect(waitFor(() => {
-      screen.getAllByText(/Diego/i);
+      screen.getAllByText(/Usuario2/i);
     }, { timeout: 1 })).rejects.toThrow();
-  })*/;
+  });
 });
