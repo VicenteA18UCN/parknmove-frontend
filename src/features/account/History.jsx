@@ -24,31 +24,31 @@ const pages = ["Usuarios", "Estacionamientos", "Reportes"];
 
 const History = () => {
   const [reservations, setReservations] = React.useState([]);
-  const[userName, setUserName] = React.useState("")
-  const[address, setAddress] = React.useState("")
+  const [userName, setUserName] = React.useState("");
+  const [address, setAddress] = React.useState("");
 
   const getReservations = async () => {
-    try{
-        agent.GetReservations.getReservations().then((response) => {
-          console.log(response);
-            setReservations(response.history);
-            console.log(reservations);
-        });
-    }catch(error){
-        console.log(error);
+    try {
+      agent.GetReservations.getReservations().then((response) => {
+        console.log(response);
+        setReservations(response.history);
+        console.log(reservations);
+      });
+    } catch (error) {
+      console.log(error);
     }
-    };
+  };
 
   React.useEffect(() => {
     getReservations();
   }, []);
 
   return (
-  <>
-  <Navbar />
-    <TableContainer component={Paper}>
-       <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
+    <>
+      <Navbar />
+      <TableContainer component={Paper} sx={{ mt: 10 }}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead sx={{ background: "#d8ebe5" }}>
             <TableRow>
               <TableCell>Nombre Usuario</TableCell>
               <TableCell align="right">Direccion</TableCell>
@@ -59,22 +59,28 @@ const History = () => {
               <TableCell align="right">Tarifa por disponibilidad</TableCell>
             </TableRow>
           </TableHead>
-            <TableBody>
+          <TableBody>
             {reservations.map((reservation) => (
               <TableRow
                 key={reservation.id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                    <TableCell component="th" scope="row">
-                    {reservation.userName + " " + reservation.userLastName}
-                    </TableCell>
-                    <TableCell align="right">{reservation.parkingAddress}</TableCell>
-                    <TableCell align="right">{new Date(reservation.entry_time).toLocaleDateString()}</TableCell>
-                    <TableCell align="right">{new Date(reservation.entry_time).toLocaleTimeString()}</TableCell>
-                    <TableCell align="right">{reservation.exit_Time}</TableCell>
-                    <TableCell align="right">{reservation.total_price}</TableCell>
-                    <TableCell align="right">{reservation.extra_fee}</TableCell>
-                </TableRow>
+                <TableCell component="th" scope="row">
+                  {reservation.userName + " " + reservation.userLastName}
+                </TableCell>
+                <TableCell align="right">
+                  {reservation.parkingAddress}
+                </TableCell>
+                <TableCell align="right">
+                  {new Date(reservation.entry_time).toLocaleDateString()}
+                </TableCell>
+                <TableCell align="right">
+                  {new Date(reservation.entry_time).toLocaleTimeString()}
+                </TableCell>
+                <TableCell align="right">{reservation.exit_Time}</TableCell>
+                <TableCell align="right">{reservation.total_price}</TableCell>
+                <TableCell align="right">{reservation.extra_fee}</TableCell>
+              </TableRow>
             ))}
           </TableBody>
         </Table>
