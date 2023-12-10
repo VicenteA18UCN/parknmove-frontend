@@ -31,6 +31,22 @@ const EditForm = ({ parking, onClose }) => {
       return;
     }
 
+    if (!/^[0-9]+$/.test(data["Pisos"]) || !/^[0-9]+$/.test(data["Estacionamientos por piso"]) || !/^[0-9]+$/.test(data["Precio Base"])) {
+      setError("Pisos", {
+        type: "manual",
+        message: "Solo se pueden ingresar números"
+      });
+      setError("Estacionamientos por piso", {
+        type: "manual",
+        message: "Solo se pueden ingresar números"
+      });
+      setError("Precio Base", {
+        type: "manual",
+        message: "Solo se pueden ingresar números"
+      });
+      return;
+    }
+
     if (data["Estacionamientos por piso"] > 20) {
       setError("Estacionamientos por piso", {
         type: "manual",
@@ -40,7 +56,7 @@ const EditForm = ({ parking, onClose }) => {
       return;
     }
 
-    if (data["Pisos"] < 0 || data["Estacionamientos por piso"] < 0) {
+    if (data["Pisos"] <= 0 || data["Estacionamientos por piso"] <= 0) {
       setError("Pisos", {
         type: "manual",
         message: "No se permiten valores negativos.",
@@ -52,10 +68,10 @@ const EditForm = ({ parking, onClose }) => {
       return;
     }
 
-    if (data["Precio Base"] < 0) {
+    if (data["Precio Base"] <= 0) {
       setError("Precio Base", {
         type: "manual",
-        message: "El precio base no puede ser negativo.",
+        message: "El precio base no puede ser negativo o cero.",
       });
       return;
     }
