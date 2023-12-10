@@ -15,6 +15,15 @@ const rootReducer = combineReducers({
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
+/**
+ * @description
+ * Este archivo se encarga de crear el store de Redux.
+ * @see configureStore
+ * @see combineReducers
+ * @see persistReducer
+ * @see persistStore
+ */
+
 export const store = configureStore({
   reducer: persistedReducer,
   middleware: [thunk],

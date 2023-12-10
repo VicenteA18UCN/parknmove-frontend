@@ -1,12 +1,5 @@
 import * as React from "react";
-import { Button, Container, Typography, Paper } from "@mui/material";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
+import { Paper } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -16,11 +9,13 @@ import TableRow from "@mui/material/TableRow";
 import Navbar from "../../app/layout/Navbar";
 import agent from "../../app/api/agent";
 
-import { selectName, selectLastname } from "./userSlice";
-import { useSelector, useDispatch } from "react-redux";
-import { logout } from "./userSlice";
-
 const pages = ["Usuarios", "Estacionamientos", "Reportes"];
+
+/**
+ * @description
+ * Este componente muestra el reporte de estacionamiento.
+ * @returns {React.Component}
+ */
 
 const History = () => {
   const [reservations, setReservations] = React.useState([]);

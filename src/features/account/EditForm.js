@@ -11,6 +11,11 @@ import {
 import Box from "@mui/material/Box";
 import { Controller, useForm } from "react-hook-form";
 
+/**
+ * Este componente se encarga de mostrar un formulario para editar los datos de un estacionamiento.
+ * @returns Un formulario para editar los datos de un estacionamiento.
+ */
+
 const EditForm = ({ parking, onClose }) => {
   const { control, handleSubmit, setError } = useForm({ mode: "onTouched" });
 

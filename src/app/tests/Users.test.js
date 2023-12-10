@@ -165,6 +165,7 @@ describe("Users", () => {
     fireEvent.click(buttons);
     const nameInputs = document.getElementById(id);
     act(() => {
+      userEvent.clear(nameInputs);
       userEvent.type(nameInputs, newName);
     });
     const confirmButtons = screen.getByTestId(confirmId);

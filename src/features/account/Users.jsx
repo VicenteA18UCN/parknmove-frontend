@@ -31,8 +31,12 @@ import Navbar from "../../app/layout/Navbar";
 import SearchIcon from "@mui/icons-material/Search";
 import validator from "validator";
 import { useEffect } from "react";
-import { set } from "react-hook-form";
-import { current } from "immer";
+
+/**
+ * @description
+ * Este componente muestra una tabla de usuarios registrados y que se pueden editar.
+ * @returns {React.Component}
+ */
 
 const Users = () => {
   const [Users, setUsers] = React.useState([]);

@@ -10,6 +10,15 @@ const initialState = {
   token: null,
 };
 
+/**
+ * @param {object} state
+ * @param {object} action
+ * @returns {void}
+ * @description
+ * Esta función se encarga de guardar los datos del usuario en el store.
+ * @see jwtDecode
+ */
+
 export const userSlice = createSlice({
   name: "user",
   initialState,
