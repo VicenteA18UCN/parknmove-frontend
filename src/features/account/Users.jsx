@@ -197,7 +197,6 @@ const Users = () => {
           onChange={handleChange}
         />
       </Grid>
-
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -225,8 +224,19 @@ const Users = () => {
                 </TableCell>
                 <TableCell align="right">
                         <React.Fragment>
-                            <Button variant="outlined" onClick={() => handleClickOpenEdit(user, user.id)}>Editar</Button>
-                            <Dialog open={openEdit} onClose={handleCloseEdit}>
+                            <Button 
+                              variant="outlined" 
+                              onClick={() => handleClickOpenEdit(user, user.id)}
+                              data-testid={`editar-${user.id}`}
+                            >
+                              Editar
+                            </Button>
+                        </React.Fragment>
+                    </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+          <Dialog open={openEdit !== undefined ? openEdit : false} onClose={handleCloseEdit}>
                                 <DialogTitle>Editar cliente</DialogTitle>
                                 <DialogContent>
                                 <DialogContentText>
@@ -239,7 +249,7 @@ const Users = () => {
                                 <TextField
                                     autoFocus
                                     margin="dense"
-                                    id="name"
+                                    id={`id-${currentUserId}`}
                                     type="text"
                                     fullWidth
                                     variant="standard"
@@ -289,14 +299,12 @@ const Users = () => {
                                 </DialogContent>
                                 <DialogActions>
                                 <Button onClick={() => handleCloseEdit()}>Cancel</Button>
-                                <Button onClick={() => handleEdit(user.id)}>Confirmar</Button>
+                                <Button 
+                                onClick={() => handleEdit(currentUserId)}
+                                data-testid={`confirm-${currentUserId}`}
+                                >Confirmar</Button>
                                 </DialogActions>
                             </Dialog>
-                        </React.Fragment>
-                    </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
         </Table>
       </TableContainer>
     </>
