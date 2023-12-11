@@ -68,7 +68,9 @@ const History = () => {
                 <TableCell align="right">
                   {new Date(reservation.entry_time).toLocaleTimeString()}
                 </TableCell>
-                <TableCell align="right">{reservation.exit_Time}</TableCell>
+                <TableCell align="right">
+                  {new Date(reservation.exit_time).toLocaleTimeString()}
+                </TableCell>
                 <TableCell align="right">{reservation.total_price}</TableCell>
                 <TableCell align="right">{reservation.extra_fee}</TableCell>
               </TableRow>
