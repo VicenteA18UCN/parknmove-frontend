@@ -188,7 +188,7 @@ const Login = () => {
                 mt={3}
                 textAlign={"center"}
               >
-                Panel de Administrador
+                Panel
               </Typography>
               <Typography
                 component="h1"
