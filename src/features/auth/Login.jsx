@@ -62,7 +62,6 @@ const Login = () => {
     const email = data.email?.toString() ?? "";
     const password = data.password?.toString() ?? "";
     if (email === "" && password === "") {
-      console.log("Debe completar todos los campos.");
       let errorDefault = "Debe completar todos los campos.";
       toast.error(errorDefault, {
         position: "top-center",
@@ -132,8 +131,6 @@ const Login = () => {
             theme: "light",
           });
         } else {
-          console.log(response.token);
-          console.log(response);
           navigate("/main/users");
         }
       })
@@ -156,9 +153,7 @@ const Login = () => {
           reset({ email: "", password: "" });
         }, 300);
       })
-      .finally(() => {
-        console.log("finally");
-      });
+      .finally(() => {});
   };
 
   return (

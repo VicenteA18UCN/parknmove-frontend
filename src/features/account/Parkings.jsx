@@ -37,7 +37,6 @@ const Parkings = () => {
   const getParkings = async () => {
     agent.GetParkings.getParkings().then((response) => {
       setParkings(response.parkings);
-      console.log(response.parkings);
     });
   };
 

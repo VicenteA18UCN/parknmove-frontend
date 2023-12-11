@@ -25,13 +25,9 @@ const History = () => {
   const getReservations = async () => {
     try {
       agent.GetReservations.getReservations().then((response) => {
-        console.log(response);
         setReservations(response.history);
-        console.log(reservations);
       });
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   React.useEffect(() => {

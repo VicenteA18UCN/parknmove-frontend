@@ -31,18 +31,22 @@ const EditForm = ({ parking, onClose }) => {
       return;
     }
 
-    if (!/^[0-9]+$/.test(data["Pisos"]) || !/^[0-9]+$/.test(data["Estacionamientos por piso"]) || !/^[0-9]+$/.test(data["Precio Base"])) {
+    if (
+      !/^[0-9]+$/.test(data["Pisos"]) ||
+      !/^[0-9]+$/.test(data["Estacionamientos por piso"]) ||
+      !/^[0-9]+$/.test(data["Precio Base"])
+    ) {
       setError("Pisos", {
         type: "manual",
-        message: "Solo se pueden ingresar números"
+        message: "Solo se pueden ingresar números",
       });
       setError("Estacionamientos por piso", {
         type: "manual",
-        message: "Solo se pueden ingresar números"
+        message: "Solo se pueden ingresar números",
       });
       setError("Precio Base", {
         type: "manual",
-        message: "Solo se pueden ingresar números"
+        message: "Solo se pueden ingresar números",
       });
       return;
     }
@@ -78,14 +82,10 @@ const EditForm = ({ parking, onClose }) => {
     parkings.base_price = data["Precio Base"];
     parkings.floor_count = data["Pisos"];
     parkings.places_per_floor = data["Estacionamientos por piso"];
-    console.log("Formulario enviado", parkings);
     try {
-      console.log(parkings);
       agent.EditParking.editParking(parkings);
       onClose();
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   return (

@@ -148,7 +148,6 @@ const Users = () => {
 
       getUsers();
       handleCloseEdit();
-      console.log(`Usuario con ID ${currentUserId} editado`);
     } catch (error) {
       if (
         error.response.status === 400 &&
