@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { store } from "../store/store";
 
-axios.defaults.baseURL = "http://parknmovebackend.azurewebsites.net:4000/";
+axios.defaults.baseURL = "https://parknmovebackend.azurewebsites.net/";
 
 const responseBody = (response) => response.data;
 axios.defaults.withCredentials = true;

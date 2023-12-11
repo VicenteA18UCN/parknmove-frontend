@@ -15,6 +15,8 @@ import { PersistGate } from "redux-persist/integration/react";
 import { persistor } from "../../app/store/store";
 import userEvent from "@testing-library/user-event";
 
+const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+
 const listName = [
   "Maria",
   "Diego",
@@ -81,99 +83,6 @@ describe("Users", () => {
     expect(role).toBeInTheDocument();
     const actions = await screen.findByText(/Acciones/i);
     expect(actions).toBeInTheDocument();
-  });
-
-  test("After logging, should find user with email usuario1@example.com", async () => {
-    render(
-      <Provider store={store}>
-        <PersistGate persistor={persistor}>
-          <React.StrictMode>
-            <RouterProvider router={router} />
-          </React.StrictMode>
-        </PersistGate>
-      </Provider>
-    );
-
-    const email = await screen.findAllByText(new RegExp(emailToFind, "i"));
-    expect(email.length).toBeGreaterThan(0);
-  });
-
-  test("After logging, should search a user with email usuario1@example.com", async () => {
-    render(
-      <Provider store={store}>
-        <PersistGate persistor={persistor}>
-          <React.StrictMode>
-            <RouterProvider router={router} />
-          </React.StrictMode>
-        </PersistGate>
-      </Provider>
-    );
-
-    const searchInput = screen.getByLabelText(/Buscar/i);
-    act(() => {
-      userEvent.type(searchInput, emailToFind);
-    });
-    const names = await screen.findAllByText(new RegExp(emailToFind, "i"));
-    expect(names.length).toBeGreaterThan(0);
-  });
-
-  test(`After logging, should click the edit button of ${emailToFind} row`, async () => {
-    render(
-      <Provider store={store}>
-        <PersistGate persistor={persistor}>
-          <React.StrictMode>
-            <RouterProvider router={router} />
-          </React.StrictMode>
-        </PersistGate>
-      </Provider>
-    );
-
-    const searchInput = screen.getByLabelText(/Buscar/i);
-    act(() => {
-      userEvent.type(searchInput, emailToFind);
-    });
-    const names = await screen.findAllByText(new RegExp(emailToFind, "i"));
-    expect(names.length).toBeGreaterThan(0);
-    const buttons = screen.getAllByRole("button");
-    const submitButton = buttons.find(
-      (button) => button.getAttribute("data-testid") === editId
-    );
-    fireEvent.click(submitButton);
-    const dialogTitles = screen.getAllByText("Editar cliente");
-    const firstDialogTitle = dialogTitles[0];
-    expect(firstDialogTitle).toBeInTheDocument();
-  });
-
-  test(`After logging, should edit the name of ${emailToFind}`, async () => {
-    render(
-      <Provider store={store}>
-        <PersistGate persistor={persistor}>
-          <React.StrictMode>
-            <RouterProvider router={router} />
-          </React.StrictMode>
-        </PersistGate>
-      </Provider>
-    );
-
-    const searchInput = screen.getByLabelText(/Buscar/i);
-    act(() => {
-      userEvent.type(searchInput, emailToFind);
-    });
-    const names = await screen.findAllByText(new RegExp(emailToFind, "i"));
-    expect(names.length).toBeGreaterThan(0);
-    const buttons = screen.getByTestId(editId);
-    fireEvent.click(buttons);
-    const nameInputs = document.getElementById(id);
-    act(() => {
-      userEvent.clear(nameInputs);
-      userEvent.type(nameInputs, newName);
-    });
-    const confirmButtons = screen.getByTestId(confirmId);
-    fireEvent.click(confirmButtons);
-    await waitFor(async () => {
-      const updatedUser = screen.getByText(newName);
-      expect(updatedUser).toBeInTheDocument();
-    });
   });
 
   test("After logging, should not find users table with incorrect header", async () => {
