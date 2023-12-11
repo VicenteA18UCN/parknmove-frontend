@@ -13,6 +13,12 @@ import { useNavigate } from "react-router-dom";
 import logo from "../../features/auth/assets/icon.png";
 import MenuIcon from "@mui/icons-material/Menu";
 
+/**
+ * @description
+ * Este componente define la barra de navegación de la aplicación.
+ * @returns {React.Component}
+ */
+
 const Navbar = () => {
   const pages = ["Usuarios", "Estacionamientos", "Reportes"];
   const [auth, setAuth] = React.useState(true);

@@ -14,7 +14,11 @@ import agent from "../../app/api/agent";
 
 import Navbar from "../../app/layout/Navbar";
 
-const pages = ["Usuarios", "Estacionamientos", "Reportes"];
+/**
+ * @description
+ * Este componente muestra una tabla de estacionamientos disponibles y que se pueden editar.
+ * @returns {React.Component}
+ */
 
 const Parkings = () => {
   const [Parkings, setParkings] = React.useState([]);
@@ -33,7 +37,6 @@ const Parkings = () => {
   const getParkings = async () => {
     agent.GetParkings.getParkings().then((response) => {
       setParkings(response.parkings);
-      console.log(response.parkings);
     });
   };
 

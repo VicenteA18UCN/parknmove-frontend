@@ -31,8 +31,12 @@ import Navbar from "../../app/layout/Navbar";
 import SearchIcon from "@mui/icons-material/Search";
 import validator from "validator";
 import { useEffect } from "react";
-import { set } from "react-hook-form";
-import { current } from "immer";
+
+/**
+ * @description
+ * Este componente muestra una tabla de usuarios registrados y que se pueden editar.
+ * @returns {React.Component}
+ */
 
 const Users = () => {
   const [Users, setUsers] = React.useState([]);
@@ -144,7 +148,6 @@ const Users = () => {
 
       getUsers();
       handleCloseEdit();
-      console.log(`Usuario con ID ${currentUserId} editado`);
     } catch (error) {
       if (
         error.response.status === 400 &&
@@ -160,9 +163,9 @@ const Users = () => {
     setCurrentUser(user);
     setCurrentUserId(userId);
     setFormData({
-      name: currentUser.name,
-      lastname: currentUser.lastname,
-      email: currentUser.email,
+      name: user.name,
+      lastname: user.lastname,
+      email: user.email,
       priority: user.priority,
     });
     setOpenEdit(true);
@@ -337,7 +340,7 @@ const Users = () => {
             </DialogContent>
             <DialogActions>
               <Button color="error" onClick={() => handleCloseEdit()}>
-                Cancel
+                Cancelar
               </Button>
               <Button
                 onClick={() => handleEdit(currentUserId)}

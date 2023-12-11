@@ -10,6 +10,12 @@ import Parkings from "../../features/account/Parkings";
 import EditForm from "../../features/account/EditForm";
 import History from "../../features/account/History";
 
+/**
+ * @description
+ * Este componente define las rutas de la aplicación.
+ * @returns {React.Component}
+ */
+
 export const router = createBrowserRouter([
   {
     path: "/",

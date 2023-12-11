@@ -11,6 +11,11 @@ import {
 import Box from "@mui/material/Box";
 import { Controller, useForm } from "react-hook-form";
 
+/**
+ * Este componente se encarga de mostrar un formulario para editar los datos de un estacionamiento.
+ * @returns Un formulario para editar los datos de un estacionamiento.
+ */
+
 const EditForm = ({ parking, onClose }) => {
   const { control, handleSubmit, setError } = useForm({ mode: "onTouched" });
 
@@ -26,6 +31,26 @@ const EditForm = ({ parking, onClose }) => {
       return;
     }
 
+    if (
+      !/^[0-9]+$/.test(data["Pisos"]) ||
+      !/^[0-9]+$/.test(data["Estacionamientos por piso"]) ||
+      !/^[0-9]+$/.test(data["Precio Base"])
+    ) {
+      setError("Pisos", {
+        type: "manual",
+        message: "Solo se pueden ingresar números",
+      });
+      setError("Estacionamientos por piso", {
+        type: "manual",
+        message: "Solo se pueden ingresar números",
+      });
+      setError("Precio Base", {
+        type: "manual",
+        message: "Solo se pueden ingresar números",
+      });
+      return;
+    }
+
     if (data["Estacionamientos por piso"] > 20) {
       setError("Estacionamientos por piso", {
         type: "manual",
@@ -35,7 +60,7 @@ const EditForm = ({ parking, onClose }) => {
       return;
     }
 
-    if (data["Pisos"] < 0 || data["Estacionamientos por piso"] < 0) {
+    if (data["Pisos"] <= 0 || data["Estacionamientos por piso"] <= 0) {
       setError("Pisos", {
         type: "manual",
         message: "No se permiten valores negativos.",
@@ -47,24 +72,20 @@ const EditForm = ({ parking, onClose }) => {
       return;
     }
 
-    if (data["Precio Base"] < 0) {
+    if (data["Precio Base"] <= 0) {
       setError("Precio Base", {
         type: "manual",
-        message: "El precio base no puede ser negativo.",
+        message: "El precio base no puede ser negativo o cero.",
       });
       return;
     }
     parkings.base_price = data["Precio Base"];
     parkings.floor_count = data["Pisos"];
     parkings.places_per_floor = data["Estacionamientos por piso"];
-    console.log("Formulario enviado", parkings);
     try {
-      console.log(parkings);
       agent.EditParking.editParking(parkings);
       onClose();
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   return (

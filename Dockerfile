@@ -13,9 +13,11 @@ RUN npm install
 # Copy the rest of the application code to the container
 COPY . .
 
+# Run the tests
+RUN npm test
+
 # Build the React app
 RUN npm run build
-
 
 FROM nginx:alpine
 
